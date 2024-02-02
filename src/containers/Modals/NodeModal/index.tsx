@@ -28,20 +28,20 @@ export const NodeModal: React.FC<ModalProps> = ({ opened, onClose }) => {
   const nodeData = useGraph(state => dataToString(state.selectedNode?.text));
   const path = useGraph(state => state.selectedNode?.path || "");
   const isParent = useGraph(state => state.selectedNode?.data?.isParent);
-  const [editMode, setEditMode] = React.useState(false);
+  const [editMode, setEditMode] = React.useState(true);
   const [value, setValue] = React.useState(nodeData || "");
 
   const onUpdate = () => {
-    if (!value) return setEditMode(false);
+    if (!value) return setEditMode(true);
     if (!isPremium) return;
     editContents(path!, value, () => {
-      setEditMode(false);
+      setEditMode(true);
       onModalClose();
     });
   };
 
   const onModalClose = () => {
-    setEditMode(false);
+    setEditMode(true);
     setValue("");
     onClose();
   };
@@ -68,7 +68,8 @@ export const NodeModal: React.FC<ModalProps> = ({ opened, onClose }) => {
               theme={darkmodeEnabled}
               defaultValue={nodeData}
               onChange={e => setValue(e!)}
-              height={200}
+              width={800}
+              height={300}
               language="json"
               options={{
                 readOnly: !editMode,
